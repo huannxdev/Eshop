@@ -1,0 +1,12 @@
+com\example\domain\SocialRepository.class
+com\example\models\ProductTail.class
+com\example\service\ProductService.class
+com\example\service\SocialNetworkService.class
+com\example\models\Product.class
+com\example\domain\ProductRepository.class
+com\example\share\ProductStatus.class
+com\example\BasicApplication.class
+com\example\ProductController.class
+com\example\models\Social.class
+com\example\SocialNetworkController.class
+.netbeans_automatic_build
