@@ -17,28 +17,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product implements Serializable {
     @Id
     public String Id;
-    public String Code;
+    public String Code;    
+    public String Name ;
+
+    public String Description ;
 
         
-        public String Name ;
+    public String IdCategory ;
 
-        public String Description ;
+    public int Status ;
 
-        
-        public String IdCategory ;
+    public String Details ;
 
-        public int Status ;
+    public int Discount ;
 
-        public String Details ;
+    public List<ProductTail> ProductTails ;
 
-        public int Discount ;
+    public String SEODescription ;
 
-        public List<ProductTail> ProductTails ;
+    public String SEOKeyWords ;
 
-        public String SEODescription ;
-
-        public String SEOKeyWords ;
-
-        public String SEOTitle ;
+    public String SEOTitle ;
     
 }
