@@ -16,6 +16,8 @@ import java.util.List;
 public class ModelMapper {
     public GetProductExtraCategoryNameResponse MapProduct(Product pro){
         GetProductExtraCategoryNameResponse response = new GetProductExtraCategoryNameResponse();
+        if(pro == null)
+            return null;
         response.Id = pro.Id;
         response.Code = pro.Code;
         response.IdCategory = pro.IdCategory;

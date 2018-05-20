@@ -5,13 +5,18 @@
  */
 package com.example.domain;
 
+import com.example.models.Category;
 import com.example.models.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author NguyenHuan
  */
-public interface CategoryRepository extends MongoRepository<Product, String>{
+@Repository
+@CrossOrigin(origins = "http://localhost:4200")
+public interface CategoryRepository extends MongoRepository<Category, String>{
     
 }

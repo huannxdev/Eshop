@@ -7,6 +7,7 @@ package com.example.models;
 import com.example.share.ProductStatus;
 import org.springframework.data.annotation.Id;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 /**
@@ -19,7 +20,8 @@ public class Product implements Serializable {
     public String Id;
     public String Code;    
     public String Name ;
-
+    public Date CreatedDate;
+    public Date UpdatedDate;
     public String Description ;
 
         

@@ -25,44 +25,62 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 /**
  *
  * @author NguyenHuan
  */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/Product")
 public class ProductController {
     @Autowired
     private ProductService productService;
-    @RequestMapping(value = "/Product", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<GetProductExtraCategoryNameResponse> Get() {
         return productService.getProducts();
     }
-    @RequestMapping(value = "/Product/{id}", method = GET)
-    public Product Get(@PathVariable("id") String id){
-        return null;
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/{id}", method = GET)
+    public GetProductExtraCategoryNameResponse Get(@PathVariable("id") String id){
+        return productService.getProduct(id);
     }
-    @RequestMapping(value = "/Product", method = POST)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/", method = POST)
     public ResponseEntity<Product>  Create(@RequestBody Product pro){
         return new ResponseEntity<Product>(productService.CreateProduct(pro),HttpStatus.OK);
     }
-    @RequestMapping(value = "/Product",method= PUT)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/",method= PUT)
     public ResponseEntity<Product>  Put(String id,@RequestBody Product pro){
         return new ResponseEntity<Product>(productService.EditProduct(id, pro),HttpStatus.OK);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/Product",method= DELETE)
-    public void Delete(String id){
+    @RequestMapping(value = "/{id}",method= DELETE)
+    public void Delete(@PathVariable("id") String id){
         productService.DeleteProduct(id);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{code}/checkexistedcode",method= GET)
     public ResponseEntity<CheckExistedCodeResponse> checkExistedCode(@PathVariable("code") String code){
         return new ResponseEntity<CheckExistedCodeResponse>(productService.checkExistedCode(code),HttpStatus.OK);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{idCategory}&{keyword}/searchproduct",method= GET)
     public List<GetProductExtraCategoryNameResponse> searchProduct(@PathVariable("idCategory") String idCategory,@PathVariable("keyword") String keyword){
-        return null;
+       return productService.SearchProduct(idCategory, keyword);
     }
     
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/{widget}/widget",method= GET)
+    public List<GetProductExtraCategoryNameResponse> widgetProduct( @PathVariable("widget") String widget){
+        return productService.ProductWidget(widget);
+    }
+    
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/{IdCategory}/category",method= GET)
+    public List<GetProductExtraCategoryNameResponse> GetProductBaseOnIDCategory(@PathVariable("IdCategory") String idCategory){
+        return productService.ProductByIdCategory(idCategory);
+    }
 }
