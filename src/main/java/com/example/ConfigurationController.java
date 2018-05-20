@@ -5,10 +5,8 @@
  */
 package com.example;
 
-import com.example.models.Category;
-import com.example.models.Product;
-import com.example.service.CategoryService;
-import java.util.List;
+import com.example.models.Configuration;
+import com.example.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,41 +22,37 @@ import org.springframework.web.bind.annotation.RestController;
  * @author NguyenHuan
  */
 @RestController
-@RequestMapping(value = "/api/Category")
-public class CategoryController {
+@RequestMapping(value = "/api/Configuration")
+public class ConfigurationController {
     @Autowired
-    private CategoryService categoryService;
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<Category> Get(){
-        return categoryService.GetCategories();
-    }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public List<Category> Get(@PathVariable("id")String id){
-        return categoryService.GetCategoriesById(id);
-    }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/{status}/status", method = RequestMethod.GET)
-    public List<Category> Get(@PathVariable("status") boolean status ){
-        return categoryService.GetCategoriesByStatus(status);
-    }
+    private ConfigurationService configurationService;
     
     @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<Configuration> Get(){
+       return new ResponseEntity<Configuration>(configurationService.Get(),HttpStatus.OK);   
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<Category> Post(@RequestBody Category category){
-        return new ResponseEntity<Category>(categoryService.CreateCategory(category),HttpStatus.OK);
+    public ResponseEntity<Configuration> Post(@RequestBody Configuration config){
+        return new ResponseEntity<Configuration>(configurationService.Create(config),HttpStatus.OK);   
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Category> Put(@PathVariable("id") String id,@RequestBody Category category){
-        return new ResponseEntity<Category>(categoryService.ReplaceCategory(category),HttpStatus.OK);
+    public ResponseEntity<Configuration> Put(@PathVariable("id") String id,@RequestBody Configuration config ){
+        return new ResponseEntity<Configuration>(configurationService.Edit(config),HttpStatus.OK); 
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void Delete(@PathVariable("id") String id){
-        categoryService.DeleteCategory(id);
+        configurationService.Delete(id);
+    }
+   
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/metaData", method = RequestMethod.GET)
+    public ResponseEntity<Integer> MetaData(){
+        return new ResponseEntity<Integer>(configurationService.getCurrency(),HttpStatus.OK);
     }
 }

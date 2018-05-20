@@ -51,8 +51,8 @@ public class ProductController {
         return new ResponseEntity<Product>(productService.CreateProduct(pro),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/",method= PUT)
-    public ResponseEntity<Product>  Put(String id,@RequestBody Product pro){
+    @RequestMapping(value = "/{id}",method= PUT)
+    public ResponseEntity<Product>  Put(@PathVariable("id") String id,@RequestBody Product pro){
         return new ResponseEntity<Product>(productService.EditProduct(id, pro),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
