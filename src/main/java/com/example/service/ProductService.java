@@ -72,7 +72,9 @@ public class ProductService {
           
     }
     public void DeleteProduct(String id){
-        repository.deleteById(id);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        mongoTemplate.remove(query, Product.class);
     }
     public CheckExistedCodeResponse checkExistedCode(String code)
         {

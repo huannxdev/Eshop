@@ -7,8 +7,13 @@ package com.example.service;
 
 import com.example.domain.CategoryRepository;
 import com.example.models.Category;
+import com.example.models.Product;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,8 +24,35 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
     @Autowired
     private CategoryRepository repositoryCategory;
+    @Autowired
+    MongoTemplate mongoTemplate;
     public List<Category> GetCategories(){
         List<Category> categories = repositoryCategory.findAll();
         return categories;
+    }
+    public List<Category> GetCategoriesById(String id){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        List<Category> categories = mongoTemplate.find(query, Category.class);
+        return categories;
+    }
+    public List<Category> GetCategoriesByStatus(boolean status){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("Status").is(status));
+        List<Category> categories = mongoTemplate.find(query, Category.class);
+        return categories;
+    }
+    public Category CreateCategory(Category category){
+        category.Id = UUID.randomUUID().toString();
+        return repositoryCategory.save(category);
+    }
+    public Category ReplaceCategory(Category category){
+        return repositoryCategory.save(category);
+    }
+    
+    public void DeleteCategory(String id){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        mongoTemplate.remove(query, Category.class);
     }
 }
