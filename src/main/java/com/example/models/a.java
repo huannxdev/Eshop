@@ -5,14 +5,10 @@
  */
 package com.example.models;
 
-import java.io.Serializable;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 /**
  *
- * @author NguyenHuan
+ * @author Uzumaki
  */
-public class EmailSubsribe {
-    public String EmailSubcribe;
+public class a {
+    
 }
