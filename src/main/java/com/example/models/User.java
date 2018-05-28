@@ -5,25 +5,23 @@
  */
 package com.example.models;
 
+import com.example.share.Role;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author NguyenHuan
  */
-@Entity
+@Document(collection="User")
 public class User {
     public User(){
          Id = UUID.randomUUID().toString();
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public String Id;
     public String UserName;
     public int UserType;
@@ -44,6 +42,7 @@ public class User {
     public List<String> WishList;
     public String Email;
     public String Password;
+    public List<Role> Roles;
     public String getUsername(){
         return UserName;
     }
@@ -56,4 +55,7 @@ public class User {
     public void setPassword(String Password){
         this.Password = Password;
     }
+    public List<Role> getRoles() {
+    return Roles;
+  }
 }
