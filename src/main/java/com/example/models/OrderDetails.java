@@ -20,4 +20,11 @@ public class OrderDetails implements Serializable {
     public double TotalPrice;
     public String Size;
     public String Color;
+    
+    public int getQuantity(){
+        return this.Quantity;
+    }
+    public String getIdProduct(){
+        return this.IdProduct;
+    }
 }

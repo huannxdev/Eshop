@@ -8,15 +8,24 @@ package com.example.models;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author NguyenHuan
  */
+@Entity
 public class User {
-    User(){
-        UUID Id = UUID.randomUUID();
+    public User(){
+         Id = UUID.randomUUID().toString();
     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public String Id;
+    public String UserName;
     public int UserType;
     public int Gender;
     public String FirstName;
@@ -33,4 +42,18 @@ public class User {
     public Date ModifiedDate;
     public String ModifiedBy ;
     public List<String> WishList;
+    public String Email;
+    public String Password;
+    public String getUsername(){
+        return UserName;
+    }
+    public void setUsername(String Username){
+        this.UserName = Username;
+    }
+    public String getPassword(){
+        return Password; 
+    }
+    public void setPassword(String Password){
+        this.Password = Password;
+    }
 }
