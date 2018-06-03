@@ -5,13 +5,17 @@
  */
 package com.example;
 
+import ApplicationLogic.CheckWishProductResponse;
+import ApplicationLogic.GetProductExtraCategoryNameResponse;
 import ApplicationLogic.UserDataDTO;
+import ch.qos.logback.core.net.server.Client;
 import com.example.domain.UserRepository;
 import com.example.models.User;
-import com.example.service.UserService;
+import com.example.service.*;
 import com.example.share.Role;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +25,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.RestController;
 /**
  *
@@ -35,6 +41,8 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProductService productService;
     public UserController(UserRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.repository = repository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -67,9 +75,72 @@ public class UserController {
     public String Login(@RequestBody User model){
         return userService.signin(model.UserName, model.Password);
     }
-    @RequestMapping(value = "/{username}", method = GET)
+    @RequestMapping(value = "/{id}", method = GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User GetUser(@PathVariable("username") String username){
-        return userService.findByUserName(username);
+    public User GetUser(@PathVariable("id") String id){
+        return userService.getUserById(id);
+    }
+    
+    @RequestMapping(value = "/", method = GET)
+    public List<User> GetALLUser(){
+        return userService.GetAllUser();
+    }
+    
+    @RequestMapping(value = "/", method = DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void Delete(@PathVariable("id") String id){
+        userService.deleteUserById(id);
+    }
+    
+    @RequestMapping(value = "/{id}",method= PUT)
+    public ResponseEntity<User> Put(@PathVariable("id") String id,@RequestBody User user){
+        return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/CheckUserExist/{terms}",method= GET)
+    public ResponseEntity<User> CheckUserExist(@PathVariable("terms") String terms){
+        return new ResponseEntity<User>(userService.findByUserName(terms),HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/GetWishList/{userId}",method= GET)
+    public List<GetProductExtraCategoryNameResponse> GetWishList(@PathVariable("userId") String userId){
+        User user = userService.getUserById(userId);
+        List<GetProductExtraCategoryNameResponse> productWishList = new ArrayList<GetProductExtraCategoryNameResponse>();
+        for(int i= 0; i < user.WishList.size(); i++){
+            productWishList.add(productService.getProduct(user.WishList.get(i)));
+        }
+        return productWishList;
+    }
+    
+    @RequestMapping(value = "/{id}/product/{idProduct}/removeWishProduct",method= DELETE)
+    public ResponseEntity<User> RemoveWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
+        User user = userService.getUserById(id);
+        if(user != null)
+        {
+            user.WishList.remove(idProduct);
+            return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
+        }
+        return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
+    }
+    
+    @RequestMapping(value = "/{id}/product/{idProduct}/addWishProduct",method= POST)
+    public ResponseEntity<User> AddWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
+        User user = userService.getUserById(id);
+        if(user != null){
+            user.WishList.add(idProduct);
+            return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
+        }
+        return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
+    }
+    
+    @RequestMapping(value = "/{id}/product/{idProduct}/checkWishProduct",method= POST)
+    public ResponseEntity<CheckWishProductResponse> CheckWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
+        User user = userService.getUserById(id);
+        if(user != null){
+            CheckWishProductResponse result = new CheckWishProductResponse();
+             result.IsWishProduct = user.WishList.contains(idProduct);
+             return new ResponseEntity<CheckWishProductResponse>(result,HttpStatus.OK);
+        }
+        return new ResponseEntity<CheckWishProductResponse>(HttpStatus.BAD_REQUEST);
     }
 }

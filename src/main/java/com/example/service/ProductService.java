@@ -60,7 +60,6 @@ public class ProductService {
         for (int i = 0; i < listProduct.size(); i++) {
             GetProductExtraCategoryNameResponse response = modelMapper.MapProduct(listProduct.get(i));
             listResponse.add(i, response);
-            System.out.println(i);
         }
         return listResponse;
 

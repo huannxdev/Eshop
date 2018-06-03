@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.JwtTokenProvider;
+import java.util.List;
 
 /**
  *
@@ -83,5 +84,25 @@ public class UserService {
         } else {
             throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+    
+    public List<User> GetAllUser(){
+        return repository.findAll();
+    }
+    
+    public User getUserById(String id){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        return mongoTemplate.findOne(query, User.class);
+    }
+    
+    public void deleteUserById(String id){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        mongoTemplate.remove(query, User.class);
+    }
+    
+    public User updateUser(User user){
+        return repository.save(user);
     }
 }

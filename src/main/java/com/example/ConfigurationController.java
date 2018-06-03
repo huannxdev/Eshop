@@ -10,6 +10,7 @@ import com.example.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,12 +34,14 @@ public class ConfigurationController {
        return new ResponseEntity<Configuration>(configurationService.Get(),HttpStatus.OK);   
     }
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<Configuration> Post(@RequestBody Configuration config){
         return new ResponseEntity<Configuration>(configurationService.Create(config),HttpStatus.OK);   
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Configuration> Put(@PathVariable("id") String id,@RequestBody Configuration config ){
         return new ResponseEntity<Configuration>(configurationService.Edit(config),HttpStatus.OK); 
@@ -46,6 +49,7 @@ public class ConfigurationController {
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void Delete(@PathVariable("id") String id){
         configurationService.Delete(id);
     }

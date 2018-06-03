@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,18 +47,21 @@ public class CategoryController {
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> Post(@RequestBody Category category){
         return new ResponseEntity<Category>(categoryService.CreateCategory(category),HttpStatus.OK);
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> Put(@PathVariable("id") String id,@RequestBody Category category){
         return new ResponseEntity<Category>(categoryService.ReplaceCategory(category),HttpStatus.OK);
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void Delete(@PathVariable("id") String id){
         categoryService.DeleteCategory(id);
     }

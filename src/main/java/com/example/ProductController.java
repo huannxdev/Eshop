@@ -17,6 +17,7 @@ import com.example.service.ProductService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,16 +48,19 @@ public class ProductController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/", method = POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Product>  Create(@RequestBody Product pro){
         return new ResponseEntity<Product>(productService.CreateProduct(pro),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}",method= PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Product>  Put(@PathVariable("id") String id,@RequestBody Product pro){
         return new ResponseEntity<Product>(productService.EditProduct(id, pro),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}",method= DELETE)
     public void Delete(@PathVariable("id") String id){
         productService.DeleteProduct(id);
