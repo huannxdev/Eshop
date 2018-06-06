@@ -24,8 +24,8 @@ public class User {
     @Id
     public String Id;
     public String UserName;
-    public int UserType;
-    public int Gender;
+    public String UserType;
+    public String Gender;
     public String FirstName;
     public String MiddleName;
     public String LastName;
@@ -34,7 +34,7 @@ public class User {
     public String PreferredLanguage;
     public Date DateOfBirth;
     public String Photo;
-    public int Status;
+    public String Status;
     public Date CreatedDate;
     public String CreatedBy;
     public Date ModifiedDate;
