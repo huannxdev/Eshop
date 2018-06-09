@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/socialnetwork")
+
 public class SocialNetworkController {
     @Autowired
     private SocialNetworkService socialService;
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public List<Social> test() {
         return socialService.getSocialNetwork();

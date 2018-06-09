@@ -77,32 +77,38 @@ public class UserController {
     }
     @RequestMapping(value = "/{id}", method = GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200")
     public User GetUser(@PathVariable("id") String id){
         return userService.getUserById(id);
     }
     
     @RequestMapping(value = "/", method = GET)
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<User> GetALLUser(){
         return userService.GetAllUser();
     }
     
     @RequestMapping(value = "/", method = DELETE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200")
     public void Delete(@PathVariable("id") String id){
         userService.deleteUserById(id);
     }
     
     @RequestMapping(value = "/{id}",method= PUT)
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> Put(@PathVariable("id") String id,@RequestBody User user){
         return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
     }
     
     @RequestMapping(value = "/CheckUserExist/{terms}",method= GET)
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> CheckUserExist(@PathVariable("terms") String terms){
         return new ResponseEntity<User>(userService.findByUserName(terms),HttpStatus.OK);
     }
     
     @RequestMapping(value = "/GetWishList/{userId}",method= GET)
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<GetProductExtraCategoryNameResponse> GetWishList(@PathVariable("userId") String userId){
         User user = userService.getUserById(userId);
         List<GetProductExtraCategoryNameResponse> productWishList = new ArrayList<GetProductExtraCategoryNameResponse>();
@@ -113,6 +119,7 @@ public class UserController {
     }
     
     @RequestMapping(value = "/{id}/product/{idProduct}/removeWishProduct",method= DELETE)
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> RemoveWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
         User user = userService.getUserById(id);
         if(user != null)
@@ -124,6 +131,7 @@ public class UserController {
     }
     
     @RequestMapping(value = "/{id}/product/{idProduct}/addWishProduct",method= POST)
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> AddWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
         User user = userService.getUserById(id);
         if(user != null){
@@ -134,6 +142,7 @@ public class UserController {
     }
     
     @RequestMapping(value = "/{id}/product/{idProduct}/checkWishProduct",method= POST)
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<CheckWishProductResponse> CheckWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
         User user = userService.getUserById(id);
         if(user != null){
