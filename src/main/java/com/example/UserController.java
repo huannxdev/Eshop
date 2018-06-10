@@ -84,6 +84,7 @@ public class UserController {
     
     @RequestMapping(value = "/", method = GET)
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> GetALLUser(){
         return userService.GetAllUser();
     }
