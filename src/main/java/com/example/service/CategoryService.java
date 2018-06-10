@@ -30,10 +30,10 @@ public class CategoryService {
         List<Category> categories = repositoryCategory.findAll();
         return categories;
     }
-    public List<Category> GetCategoriesById(String id){
+    public Category GetCategoriesById(String id){
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id));
-        List<Category> categories = mongoTemplate.find(query, Category.class);
+        Category categories = mongoTemplate.findOne(query, Category.class);
         return categories;
     }
     public List<Category> GetCategoriesByStatus(boolean status){

@@ -36,7 +36,7 @@ public class CategoryController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public List<Category> Get(@PathVariable("id")String id){
+    public Category Get(@PathVariable("id")String id){
         return categoryService.GetCategoriesById(id);
     }
     @CrossOrigin(origins = "http://localhost:4200")
