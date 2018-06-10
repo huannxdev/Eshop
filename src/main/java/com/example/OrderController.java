@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,26 +38,31 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Order> Get(){
         return orderService.GetOrders();
     }
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @RequestMapping(value = "/{id}", method = GET)
     public Order Get(@PathVariable("id") String id){
         return orderService.GetOrder(id);
     }
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/", method = POST)
     public ResponseEntity<Order>  Create(@RequestBody Order order){
         return new ResponseEntity<Order>(orderService.CreateOrder(order),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}",method= PUT)
     public ResponseEntity<Order>  Put(@PathVariable("id") String id,@RequestBody Order order){
         return new ResponseEntity<Order>(orderService.EditOrder(id, order),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{id}",method= DELETE)
     public void Delete(@PathVariable("id") String id){

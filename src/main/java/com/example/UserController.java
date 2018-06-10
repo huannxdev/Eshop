@@ -60,6 +60,7 @@ public class UserController {
     }
     
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/admin", method = POST)
     public String Post_Admin(@RequestBody UserDataDTO model){
         User user = new User();
@@ -75,8 +76,15 @@ public class UserController {
     public String Login(@RequestBody User model){
         return userService.signin(model.UserName, model.Password);
     }
+    
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/loginAdmin", method = POST)
+    public String LoginAdmin(@RequestBody User model){
+        return userService.signinAdmin(model.UserName, model.Password);
+    }
+    
     @RequestMapping(value = "/{id}", method = GET)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT') ")
     @CrossOrigin(origins = "http://localhost:4200")
     public User GetUser(@PathVariable("id") String id){
         return userService.getUserById(id);
