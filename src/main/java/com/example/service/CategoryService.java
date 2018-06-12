@@ -36,7 +36,7 @@ public class CategoryService {
         Category categories = mongoTemplate.findOne(query, Category.class);
         return categories;
     }
-    public List<Category> GetCategoriesByStatus(boolean status){
+    public List<Category> GetCategoriesByStatus(int status){
         Query query = new Query();
         query.addCriteria(Criteria.where("Status").is(status));
         List<Category> categories = mongoTemplate.find(query, Category.class);

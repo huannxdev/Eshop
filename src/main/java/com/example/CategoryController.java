@@ -41,7 +41,7 @@ public class CategoryController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{status}/status", method = RequestMethod.GET)
-    public List<Category> Get(@PathVariable("status") boolean status ){
+    public List<Category> Get(@PathVariable("status") int status ){
         return categoryService.GetCategoriesByStatus(status);
     }
     
