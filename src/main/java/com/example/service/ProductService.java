@@ -122,6 +122,7 @@ public class ProductService {
             }
         } else {
             if (widget.compareTo("topSales") == 0) {
+                int sizeListProduct = 8;
                 List<Order> orders = orderService.GetOrders();
                 List<OrderDetails> details = new ArrayList<OrderDetails>();
                 for (int i = 0; i < orders.size(); i++) {
@@ -130,8 +131,13 @@ public class ProductService {
                 Map<String, Integer> groupList = details.stream().collect(Collectors.groupingBy(OrderDetails::getIdProduct, Collectors.summingInt(OrderDetails::getQuantity)));
                 Map<String, Integer> groupListSorted = sortByValue(groupList);
                 List<String> listProductId = new ArrayList(groupListSorted.keySet());
-                for (int j = listProductId.size() - 1; j < listProductId.size() - 9; j--) {
-                    products.add(findProductById(listProductId.get(j)));
+                for (int j = 0; j < sizeListProduct; j++) {
+                    if( j >= listProductId.size())
+                        break;
+                    if(findProductById(listProductId.get(j)) == null)
+                        sizeListProduct += 1;
+                    else
+                        products.add(findProductById(listProductId.get(j)));
                 }
             } else if (widget.compareTo("topDiscount") == 0) {
                 products = repository.findAll(new Sort(Sort.Direction.DESC, "Discount"));
