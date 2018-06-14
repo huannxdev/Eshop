@@ -177,9 +177,10 @@ public class ProductService {
         Query query = new Query();
         List<Criteria> criteria = new ArrayList<>();
         criteria.add(Criteria.where("IdCategory").is(idCategory));
-        criteria.add(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
-        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        return mongoTemplate.find(query, Product.class);
+                return mongoTemplate.find(query, Product.class);
+//        criteria.add(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
+//        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
+//        return mongoTemplate.find(query, Product.class);
 //          return repository.searchNameByWord(keyword);
     }
 

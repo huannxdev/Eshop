@@ -83,11 +83,11 @@ public class UserController {
         return userService.signinAdmin(model.UserName, model.Password);
     }
     
-    @RequestMapping(value = "/{id}", method = GET)
+    @RequestMapping(value = "/{username}", method = GET)
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT') ")
     @CrossOrigin(origins = "http://localhost:4200")
-    public User GetUser(@PathVariable("id") String id){
-        return userService.getUserById(id);
+    public User GetUser(@PathVariable("username") String username){
+        return userService.findByUserName(username);
     }
     
     @RequestMapping(value = "/", method = GET)
