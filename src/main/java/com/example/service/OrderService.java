@@ -78,4 +78,10 @@ public class OrderService {
         query.addCriteria(Criteria.where("_id").is(id));
         return  mongoTemplate.findOne(query, Order.class);
     }
+    
+    public List<Order> findOrderByUserId(String userId){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("UserId").is(userId));
+        return  mongoTemplate.find(query,Order.class);
+    }
 }

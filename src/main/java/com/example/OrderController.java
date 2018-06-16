@@ -49,6 +49,14 @@ public class OrderController {
     public Order Get(@PathVariable("id") String id){
         return orderService.GetOrder(id);
     }
+    
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+    @RequestMapping(value = "/listOrder/{userId}", method = GET)
+    public List<Order> GetByUser(@PathVariable("userId") String userId){
+        return orderService.findOrderByUserId(userId);
+    }
+    
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @RequestMapping(value = "/", method = POST)
