@@ -50,13 +50,13 @@ public class OrderController {
         return orderService.GetOrder(id);
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @RequestMapping(value = "/", method = POST)
     public ResponseEntity<Order>  Create(@RequestBody Order order){
         return new ResponseEntity<Order>(orderService.CreateOrder(order),HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @RequestMapping(value = "/{id}",method= PUT)
     public ResponseEntity<Order>  Put(@PathVariable("id") String id,@RequestBody Order order){
         return new ResponseEntity<Order>(orderService.EditOrder(id, order),HttpStatus.OK);
