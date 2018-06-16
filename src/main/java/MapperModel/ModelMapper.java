@@ -24,7 +24,7 @@ public class ModelMapper {
         response.Description = pro.Description;
         response.Details = pro.Details;
         response.Discount = pro.Discount;
-        response.Name = pro.Code;
+        response.Name = pro.Name;
         response.Status = pro.Status;
         response.ProductTails = pro.ProductTails;
         response.CalculateProductValues();

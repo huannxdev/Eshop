@@ -41,6 +41,7 @@ public class User {
     public String ModifiedBy ;
     public List<String> WishList;
     public String Email;
+    public String PhoneNumber;
     public String Password;
     public List<Role> Roles;
     public String getUsername(){

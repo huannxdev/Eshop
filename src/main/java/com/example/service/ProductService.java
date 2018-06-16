@@ -175,9 +175,11 @@ public class ProductService {
 
     public List<Product> findProductByCategoryAndWord(String idCategory, String keyword) {
         Query query = new Query();
-        List<Criteria> criteria = new ArrayList<>();
-        criteria.add(Criteria.where("IdCategory").is(idCategory));
-                return mongoTemplate.find(query, Product.class);
+        if (!idCategory.equals("all"))
+        query.addCriteria(Criteria.where("IdCategory").is(idCategory));
+        query.addCriteria(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
+        List<Product> productListInCategory = mongoTemplate.find(query, Product.class); 
+        return productListInCategory;
 //        criteria.add(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
 //        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
 //        return mongoTemplate.find(query, Product.class);
