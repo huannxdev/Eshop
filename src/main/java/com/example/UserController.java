@@ -139,7 +139,7 @@ public class UserController {
         return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
     }
     
-    @RequestMapping(value = "/{username}/product/{idProduct}/addWishProduct",method= POST)
+    @RequestMapping(value = "/{username}/product/{idProduct}/addWishProduct",method= GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> AddWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
         User user = userService.findByUserName(username);
@@ -150,7 +150,7 @@ public class UserController {
         return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
     }
     
-    @RequestMapping(value = "/{username}/product/{idProduct}/checkWishProduct",method= POST)
+    @RequestMapping(value = "/{username}/product/{idProduct}/checkWishProduct",method= GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<CheckWishProductResponse> CheckWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
         User user = userService.findByUserName(username);
