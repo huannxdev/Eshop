@@ -116,10 +116,10 @@ public class UserController {
         return new ResponseEntity<User>(userService.findByUserName(terms),HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/GetWishList/{userId}",method= GET)
+    @RequestMapping(value = "/GetWishList/{username}",method= GET)
     @CrossOrigin(origins = "http://localhost:4200")
-    public List<GetProductExtraCategoryNameResponse> GetWishList(@PathVariable("userId") String userId){
-        User user = userService.getUserById(userId);
+    public List<GetProductExtraCategoryNameResponse> GetWishList(@PathVariable("username") String username){
+        User user = userService.findByUserName(username);
         List<GetProductExtraCategoryNameResponse> productWishList = new ArrayList<GetProductExtraCategoryNameResponse>();
         for(int i= 0; i < user.WishList.size(); i++){
             productWishList.add(productService.getProduct(user.WishList.get(i)));
@@ -127,10 +127,10 @@ public class UserController {
         return productWishList;
     }
     
-    @RequestMapping(value = "/{id}/product/{idProduct}/removeWishProduct",method= DELETE)
+    @RequestMapping(value = "/{username}/product/{idProduct}/removeWishProduct",method= DELETE)
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<User> RemoveWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
-        User user = userService.getUserById(id);
+    public ResponseEntity<User> RemoveWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
+        User user = userService.findByUserName(username);
         if(user != null)
         {
             user.WishList.remove(idProduct);
@@ -139,10 +139,10 @@ public class UserController {
         return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
     }
     
-    @RequestMapping(value = "/{id}/product/{idProduct}/addWishProduct",method= POST)
+    @RequestMapping(value = "/{username}/product/{idProduct}/addWishProduct",method= POST)
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<User> AddWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
-        User user = userService.getUserById(id);
+    public ResponseEntity<User> AddWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
+        User user = userService.findByUserName(username);
         if(user != null){
             user.WishList.add(idProduct);
             return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
@@ -150,10 +150,10 @@ public class UserController {
         return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
     }
     
-    @RequestMapping(value = "/{id}/product/{idProduct}/checkWishProduct",method= POST)
+    @RequestMapping(value = "/{username}/product/{idProduct}/checkWishProduct",method= POST)
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<CheckWishProductResponse> CheckWishProduct(@PathVariable("id") String id, @PathVariable("idProduct") String idProduct){
-        User user = userService.getUserById(id);
+    public ResponseEntity<CheckWishProductResponse> CheckWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
+        User user = userService.findByUserName(username);
         if(user != null){
             CheckWishProductResponse result = new CheckWishProductResponse();
              result.IsWishProduct = user.WishList.contains(idProduct);
