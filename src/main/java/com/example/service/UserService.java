@@ -115,6 +115,11 @@ public class UserService {
     }
     
     public User updateUser(User user){
+        User currentUser = getUserById(user.Id);
+        user.Roles = currentUser.Roles;
+        user.Password = currentUser.Password;
+        user.Status = currentUser.Status;
+        user.WishList = currentUser.WishList;
         return repository.save(user);
     }
 }
