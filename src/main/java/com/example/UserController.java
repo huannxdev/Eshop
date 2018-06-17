@@ -144,6 +144,8 @@ public class UserController {
     public ResponseEntity<User> AddWishProduct(@PathVariable("username") String username, @PathVariable("idProduct") String idProduct){
         User user = userService.findByUserName(username);
         if(user != null){
+            if(user.WishList == null)
+                user.WishList = new ArrayList<String>();
             user.WishList.add(idProduct);
             return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
         }
@@ -156,7 +158,10 @@ public class UserController {
         User user = userService.findByUserName(username);
         if(user != null){
             CheckWishProductResponse result = new CheckWishProductResponse();
-             result.IsWishProduct = user.WishList.contains(idProduct);
+            if(user.WishList != null)
+                result.IsWishProduct = user.WishList.contains(idProduct);
+            else
+                result.IsWishProduct = false;
              return new ResponseEntity<CheckWishProductResponse>(result,HttpStatus.OK);
         }
         return new ResponseEntity<CheckWishProductResponse>(HttpStatus.BAD_REQUEST);
