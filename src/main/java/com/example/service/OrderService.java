@@ -14,6 +14,7 @@ import com.example.domain.OrderRepository;
 import com.example.models.Order;
 import com.example.models.Product;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public class OrderService {
     }
     private static final ModelMapper modelMapper = new ModelMapper();
     public List<Order> GetOrders() {
-        List<Order> listOrder = repository.findAll();
+        List<Order> listOrder = repository.findAll(new Sort(Sort.Direction.DESC, "CreatedDate"));
         return listOrder;
         
     }
@@ -81,7 +82,7 @@ public class OrderService {
     
     public List<Order> findOrderByUserId(String userId){
         Query query = new Query();
-        query.addCriteria(Criteria.where("UserId").is(userId));
-        return  mongoTemplate.find(query,Order.class);
+        query.addCriteria(Criteria.where("UserId").is(userId)).with(new Sort(Sort.Direction.DESC,"CreatedDate"));
+        return mongoTemplate.find(query,Order.class);
     }
 }
