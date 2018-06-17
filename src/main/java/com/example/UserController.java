@@ -102,7 +102,7 @@ public class UserController {
         return userService.GetAllUser();
     }
     
-    @RequestMapping(value = "/", method = DELETE)
+    @RequestMapping(value = "/{id}", method = DELETE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @CrossOrigin(origins = "http://localhost:4200")
     public void Delete(@PathVariable("id") String id){
