@@ -180,10 +180,6 @@ public class ProductService {
         query.addCriteria(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
         List<Product> productListInCategory = mongoTemplate.find(query, Product.class); 
         return productListInCategory;
-//        criteria.add(Criteria.where("Name").regex(keyword.replaceAll("\\*", ".*")));
-//        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-//        return mongoTemplate.find(query, Product.class);
-//          return repository.searchNameByWord(keyword);
     }
 
     private static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
