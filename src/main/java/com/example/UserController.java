@@ -89,7 +89,12 @@ public class UserController {
     public User GetUser(@PathVariable("username") String username){
         return userService.findByUserName(username);
     }
-    
+    @RequestMapping(value = "/id={id}", method = GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT') ")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public User GetUserById(@PathVariable("id") String id){
+        return userService.getUserById(id);
+    }
     @RequestMapping(value = "/", method = GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
